@@ -15,5 +15,5 @@ gnome-keyring.
 - [keyring][2] stores a secret in your keyring
 
 
-[1]: https://github.com/tadeck/onetimepass ""
-[2]: https://github.com/jaraco/keyring ""
+[1]: https://github.com/tadeck/onetimepass "google authenticator library"
+[2]: https://github.com/jaraco/keyring "store / retrieve from system keyring"
