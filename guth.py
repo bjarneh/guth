@@ -137,10 +137,10 @@ def main(argv=sys.argv):
         if inst.code != 0:
             raise inst
     except KeyboardInterrupt, inst:
-        sys.stdout.write(" "*80 +"\r")
+        sys.stdout.write("\r" + " "*80 +"\r")
     except Exception, inst:
-        sys.stderr.write("[ERROR] %s\n" % inst )
-        return 1
+        raise SystemExit( "[ERROR] %s\n" % inst )
+    return 0
 
 
 if __name__ == '__main__':
