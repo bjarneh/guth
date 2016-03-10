@@ -72,7 +72,7 @@ def pass_loop(interval, secret, tok_len):
     cnt = long(time.time()) % interval
     sin = str(interval)
     siz = len(sin)
-    fmt = "  code: %s [%0"+ str(siz) +"d/"+ sin +"]\r"
+    fmt = "  code: %0"+str(tok_len)+"d [%0"+ str(siz) +"d/"+ sin +"]\r"
     pw  = None
     while True:
         if cnt == 0 or pw is None:
