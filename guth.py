@@ -23,6 +23,8 @@
      -s --secret   :  specify secret to use (!!)
      -i --interval :  sec interval (default: 30)
      -l --length   :  token length (default: 6)
+     -r --report   :  print keyring secret (!!)
+     -d --delete   :  delete secret from keyring
 """
 
 import sys
@@ -84,15 +86,27 @@ def pass_loop(interval, secret, tok_len):
         cnt = ((cnt + 1) % interval)
 
 
+def delete_secret_from_keyring():
+    """ Remove my current secret stored for guth.py"""
+    global SERVICE, USER
+    return keyring.delete_password(SERVICE, USER)
+
+
+def get_secret_from_keyring():
+    """ Return users secret from keyring"""
+    global SERVICE, USER
+    return keyring.get_password(SERVICE, USER)
+
+
 def get_secret_from_keyring_or_user():
     """ Try to find secret in keyring, or ask user for it """
     global SERVICE, USER
-    secret = keyring.get_password(SERVICE, USER)
+    secret = get_secret_from_keyring()
     if not secret:
         while not secret:
             secret = raw_input(" Type in secret (q to exit): ")
             if not secret or secret == 'q':
-                break
+                raise SystemExit(0)
             else:
                 keyring.set_password(SERVICE, USER, secret)
     return secret
@@ -105,8 +119,8 @@ def main(argv=sys.argv):
 
     try:
 
-        (opts, args) = niceopt(argv[1:], "hvi:s:l:",
-                               ['help', 'version',
+        (opts, args) = niceopt(argv[1:], "hvrdi:s:l:",
+                               ['help', 'version','report','delete',
                                 'secret=','interval=', 'length='])
 
         for o, a in opts:
@@ -115,6 +129,12 @@ def main(argv=sys.argv):
                 raise SystemExit(0)
             if o in ('-v', '--version'):
                 print( "%s - %s" % (argv[0], __version__));
+                raise SystemExit(0)
+            if o in ('-r', '--report'):
+                print( "%s" % ( get_secret_from_keyring() ));
+                raise SystemExit(0)
+            if o in ('-d', '--delete'):
+                delete_secret_from_keyring()
                 raise SystemExit(0)
             if o in ('-i', '--interval'):
                 INTERVAL = int(a)
