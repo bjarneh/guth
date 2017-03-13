@@ -71,7 +71,7 @@ def pass_loop(interval, secret, tok_len):
     Print google authenticator time-based-token once every interval,
     based on the given secret and token length
     """
-    cnt = long(time.time()) % interval
+    cnt = int(time.time()) % interval
     sin = str(interval)
     siz = len(sin)
     fmt = "  code: %0"+str(tok_len)+"d [%0"+ str(siz) +"d/"+ sin +"]\r"
@@ -104,7 +104,7 @@ def get_secret_from_keyring_or_user():
     secret = get_secret_from_keyring()
     if not secret:
         while not secret:
-            secret = raw_input(" Type in secret (q to exit): ")
+            secret = input(" Type in secret (q to exit): ")
             if not secret or secret == 'q':
                 raise SystemExit(0)
             else:
@@ -128,10 +128,10 @@ def main(argv=sys.argv):
                 print( __doc__ );
                 raise SystemExit(0)
             if o in ('-v', '--version'):
-                print( "%s - %s" % (argv[0], __version__));
+                print(( "%s - %s" % (argv[0], __version__)));
                 raise SystemExit(0)
             if o in ('-r', '--report'):
-                print( "%s" % ( get_secret_from_keyring() ));
+                print(( "%s" % ( get_secret_from_keyring() )));
                 raise SystemExit(0)
             if o in ('-d', '--delete'):
                 delete_secret_from_keyring()
@@ -153,12 +153,12 @@ def main(argv=sys.argv):
 
         raise SystemExit( 0 )
 
-    except SystemExit, inst:
+    except SystemExit as inst:
         if inst.code != 0:
             raise inst
-    except KeyboardInterrupt, inst:
+    except KeyboardInterrupt as inst:
         sys.stdout.write("\r" + " "*80 +"\r")
-    except Exception, inst:
+    except Exception as inst:
         raise SystemExit( "[ERROR] %s\n" % inst )
     return 0
 
