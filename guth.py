@@ -33,6 +33,9 @@ import getopt
 import keyring
 import onetimepass
 
+import traceback
+
+
 # Globals
 
 __version__  = 1.0
@@ -104,7 +107,9 @@ def get_secret_from_keyring_or_user():
     secret = get_secret_from_keyring()
     if not secret:
         while not secret:
-            secret = input(" Type in secret (q to exit): ")
+            # Does not work on Python2.7 [eval]
+            # secret = input(" Type in secret (q to exit): ")
+            secret = raw_input(" Type in secret (q to exit): ")
             if not secret or secret == 'q':
                 raise SystemExit(0)
             else:
@@ -159,6 +164,7 @@ def main(argv=sys.argv):
     except KeyboardInterrupt as inst:
         sys.stdout.write("\r" + " "*80 +"\r")
     except Exception as inst:
+        traceback.print_exc()
         raise SystemExit( "[ERROR] %s\n" % inst )
     return 0
 
