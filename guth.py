@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #____________________________________________________________
 #
@@ -56,7 +56,7 @@ USER     = 'guth.py'    # These are choosen almost at random, see above
 SERVICE  = 'localhost'  # These are choosen almost at random, see above 
 INTERVAL = 30           # We default to 30 seconds
 TOKENLEN = 6            # We default to a 6 digit token
-SECRET   = None         # This should be store in keyring
+SECRET   = None         # This should be store in keyring (example: MFRGGZDFMZTWQ2LK)
 
 
 def niceopt(argv, short_opts, long_opts):
@@ -108,8 +108,8 @@ def get_secret_from_keyring_or_user():
     if not secret:
         while not secret:
             # Does not work on Python2.7 [eval]
-            # secret = input(" Type in secret (q to exit): ")
-            secret = raw_input(" Type in secret (q to exit): ")
+            secret = input(" Type in secret (q to exit): ")
+            # secret = raw_input(" Type in secret (q to exit): ")
             if not secret or secret == 'q':
                 raise SystemExit(0)
             else:
